@@ -27,6 +27,7 @@ jobs:
         os: [ubuntu-latest]
         build_type: [Release]
         c_compiler: [gcc, clang]
+        hiredis_install: [true, false]
         include:
           - os: ubuntu-latest
             c_compiler: gcc
@@ -50,6 +51,7 @@ jobs:
       run: |
         wget -L https://github.com/redis/hiredis/archive/master.zip -O hiredis-master.zip && unzip hiredis-master.zip && mkdir -p ${{ github.workspace }}/install
         cd hiredis-master && make PREFIX=${{ github.workspace }}/install -j2 install && cd ..
+      if: ${{ matrix.hiredis_install == 'true' }}
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
